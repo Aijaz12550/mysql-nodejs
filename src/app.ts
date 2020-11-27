@@ -2,6 +2,8 @@ import express from 'express';
 import mysql from "mysql";
 import { router } from "./routes/join";
 import { sp } from "./routes/storedProcedures"
+import envHandler from "dotenv";
+envHandler.config()
 export const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -52,6 +54,7 @@ app.use('/create/ticket', (req, res) => {
 
 app.use('/join', router);
 app.use('/sp', sp)
+console.log("env", process.env.host);
 
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);
