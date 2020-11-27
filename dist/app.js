@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mysql_1 = __importDefault(require("mysql"));
+const join_1 = require("./routes/join");
 exports.connection = mysql_1.default.createConnection({
     host: "localhost",
     user: "root",
@@ -18,6 +19,8 @@ exports.connection.connect(err => {
 });
 const app = express_1.default();
 const port = 3000;
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     exports.connection.query(`SELECT * FROM learning.collaborations`, function (err, data) {
         if (err) {
@@ -42,12 +45,13 @@ app.use('/procedure', (req, res) => {
     });
 });
 app.use('/create/ticket', (req, res) => {
-    exports.connection.query(`CALL create_ticket('open','medium',2,'test 2')`, function (err, result) {
+    exports.connection.query(`CALL create_ticket('open','medium',2,'test 2')`, function (err, result, fields) {
         console.log("error", err);
-        console.log("result", result);
+        console.log("result", result, fields);
         res.send(result);
     });
 });
+app.use('/join', join_1.router);
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);
 });
