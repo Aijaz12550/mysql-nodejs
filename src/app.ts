@@ -1,6 +1,7 @@
 import express from 'express';
 import mysql from "mysql";
-import { router } from "./routes/join"
+import { router } from "./routes/join";
+import { sp } from "./routes/storedProcedures"
 export const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -42,14 +43,15 @@ app.use('/procedure', (req, res) => {
 })
 
 app.use('/create/ticket', (req, res) => {
-    connection.query(`CALL create_ticket('open','medium',2,'test 2')`, function (err, result,fields) {
+    connection.query(`CALL create_ticket('open','medium',2,'test 2')`, function (err, result, fields) {
         console.log("error", err);
         console.log("result", result, fields);
         res.send(result)
     })
 })
 
-app.use('/join', router)
+app.use('/join', router);
+app.use('/sp', sp)
 
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);

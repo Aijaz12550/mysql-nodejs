@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mysql_1 = __importDefault(require("mysql"));
 const join_1 = require("./routes/join");
+const storedProcedures_1 = require("./routes/storedProcedures");
 exports.connection = mysql_1.default.createConnection({
     host: "localhost",
     user: "root",
@@ -52,6 +53,7 @@ app.use('/create/ticket', (req, res) => {
     });
 });
 app.use('/join', join_1.router);
+app.use('/sp', storedProcedures_1.sp);
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);
 });
