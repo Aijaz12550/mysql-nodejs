@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const mysql_1 = __importDefault(require("mysql"));
 const join_1 = require("./routes/join");
 const storedProcedures_1 = require("./routes/storedProcedures");
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 exports.connection = mysql_1.default.createConnection({
     host: "localhost",
     user: "root",
@@ -54,6 +56,7 @@ app.use('/create/ticket', (req, res) => {
 });
 app.use('/join', join_1.router);
 app.use('/sp', storedProcedures_1.sp);
+console.log("env", process.env.host);
 app.listen(port, () => {
     return console.log(`server is listening on ${port}`);
 });
